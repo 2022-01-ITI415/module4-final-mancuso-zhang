@@ -51,7 +51,14 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         public TextMeshProUGUI timeText;
 
+        public GameObject timeTextObject;
+
         private bool gameover = false; 
+        private bool gamewon = false;
+
+        public int pickups_needed_to_win = 3;
+
+        private float startTime;
 
         // Use this for initialization
         private void Start()
@@ -70,6 +77,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             count = 0;
             SetCountText();
             winTextObject.SetActive(false);
+            timeTextObject.SetActive(false);
         }
 
 
@@ -100,8 +108,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
             m_PreviouslyGrounded = m_CharacterController.isGrounded;
 
-            if(!gameover){
-                timeText.text = "Time: " + Time.realtimeSinceStartup.ToString();
+            if(!gameover && !gamewon){
+                timeText.text = "Time: " + (Time.time - startTime).ToString();
             }
         }
 
@@ -281,11 +289,20 @@ namespace UnityStandardAssets.Characters.FirstPerson
     {
         if(other.gameObject.CompareTag("PickUp"))
         {
+            if(count == 0) {
+                startTime = Time.time;
+                timeTextObject.SetActive(true);
+            }
             other.gameObject.SetActive(false);
             count = count + 1;
 
             SetCountText();
-        }else if(other.gameObject.CompareTag("Drop"))
+            if(count == pickups_needed_to_win){
+                winText.text = "You Win!";
+                winTextObject.SetActive(true);
+                gamewon = true;
+            }
+        }else if(other.gameObject.CompareTag("Drop") && !gamewon)
         {
             winText.text = "Game Over";
             winTextObject.SetActive(true);
