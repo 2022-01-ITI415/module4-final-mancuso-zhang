@@ -8,7 +8,7 @@ public class Darken : MonoBehaviour
 
     void Start()
     {
-        light = GetComponent<Light>();
+        // light = GetComponent<Light>();
     }
 
     void OnTriggerEnter (Collider player)
