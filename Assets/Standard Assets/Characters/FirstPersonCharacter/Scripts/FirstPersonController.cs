@@ -56,7 +56,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private bool gameover = false; 
         private bool gamewon = false;
 
-        public int pickups_needed_to_win = 3;
+        public int pickups_needed_to_win = 102;
 
         private float startTime;
 
@@ -313,10 +313,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
     void SetCountText()
     {
         countText.text = "Count: " + count.ToString();
-        if(count >= 12)
-        {
-            winTextObject.SetActive(true);
-        }
     }
     }
 }
